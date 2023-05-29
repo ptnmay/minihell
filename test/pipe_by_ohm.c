@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   2.c                                                :+:      :+:    :+:   */
+/*   pipe_by_ohm.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 05:50:44 by psaeyang          #+#    #+#             */
-/*   Updated: 2023/05/29 07:45:53 by psaeyang         ###   ########.fr       */
+/*   Created: 2023/05/29 08:31:42 by psaeyang          #+#    #+#             */
+/*   Updated: 2023/05/29 08:40:06 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int	main(void)
+int main()
 {
-	int	id;
-	int	i;
-	int	n;
-
-	id = fork();
-	if (id == 0)
-		n = 1;
-	else
-		n = 6;
-	// i = 0;
-	// while (i < n + 5)
-	// {
-	// 	i = n;
-	// 	printf("%d ", i);
-	// 	fflush(stderr);
-	// 	i++;
-	// }
-	if (id != 0)
-		wait();
-	for (i = n; i < n + 5; i++)
-	{
-		printf("%d ", i);
-		fflush(stderr);
-		i++;
-		
-	}
-	
-	if (id != 0)
-		printf("\n");
+	int	
 }
