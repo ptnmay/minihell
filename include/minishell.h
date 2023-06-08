@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 16:15:02 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/07 04:58:27 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/08 22:44:14 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@
 # define KCYN  "\x1B[36m"
 # define KWHT  "\x1B[37m"
 # define NONE  "\033[0m"
+
+# define BLKB "\e[40m"
+# define REDB "\e[41m"
+# define GRNB "\e[42m"
+# define YELB "\e[43m"
+# define BLUB "\e[44m"
+# define MAGB "\e[45m"
+# define CYNB "\e[46m"
+# define WHTB "\e[47m"
 
 # define MAX_HISTORY 100
 
@@ -76,7 +85,6 @@ typedef struct s_d
 {
 	int		exit_status;
 	char	*buf;
-	char	**data;
 	char	**envp;
 	t_list	*env;
 	t_token	*tkn;
@@ -89,12 +97,11 @@ void			lexer(t_d *d);
 int				expand_var(char **new, char *s, int i, t_d *d);
 int				varlen(char *s, int i);
 int				check_special(char *str);
-// smart_split.c
-char			**smart_split(char *s);
 // split_metachar.c
 int				is_meta(char c);
 int				case_cut_list(t_token **h, t_token *p, int i, int pos);
 void			split_metachar(t_d *d, int pos, int size, int i);
+void			define_type(t_token *ptr);
 // split_to_list.c
 int				count_word(char *str);
 char			*ft_strndup(char *str, int n);
@@ -117,13 +124,22 @@ void			join_cmd(t_d *d);
 // execute.c
 void			execute_from_path(t_token *cmd, t_d *d);
 void			main_execute(t_d *d);
+// builtin_1.c
+void			ft_pwd(t_d *d);
+void			ft_echo(char **args, t_d *d);
+int				check_valid(char *str);
+void			ft_export(char **args, t_d *d);
+// builtin_2.c
+void			ft_env(t_d *d);
+void			ft_unset(char **args, t_d *d);
+void			ft_exit(char **args, t_d *d);
+void			ft_cd(char **args, t_d *d);
 
 // UTIL
 // free.c
 void			free_2d(char **input);
 void			free_env(void *content);
-enum e_token	check_type(char *c);
-void			show_2d(char **input);
+void			free_for_all(t_d *d);
 // lst_1.c
 t_token			*lst_new(char *str, enum e_token type);
 t_token			*lst_last(t_token *tkn);
@@ -135,19 +151,26 @@ void			lst_delone(t_token *tkn);
 void			lst_clear(t_token **tkn);
 void			lst_iter(t_token *tkn, void (*f)(char *));
 void			lst_insert(t_token **lst, t_token *new, int pos);
-void			show_cmd(t_token *cmd);
+void			lst_delmid(t_list *head, t_list *terget);
 // util_1.c
 int				skip_quote(char *s, int i);
 char			*ft_strjoin_premium(char *s1, char *s2, int option);
+void			print_tkn(char *str);
+enum e_token	check_type(char *c);
+void			show_2d(char **input);
 // util_2.c
 int				check_builtin(char *str);
+int				do_builtin(char **str, t_d *d);
+int				args_count(char **str);
+void			show_cmd(t_token *cmd);
+int				is_inside(char c, char *set);
 
 // SRC/ENV
 // env.c
-void			init_env(t_d *d, char **envp);
-void			print_env(void *content);
-void			print_tkn(char *str);
 char			*ft_getenv(t_list *my_env, char *str);
+void			print_env(void *content);
+void			init_env(t_d *d, char **envp);
+void			create_new_env(char *key, char *value, t_d *d);
 
 #endif
 

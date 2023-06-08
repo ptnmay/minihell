@@ -6,7 +6,7 @@
 /*   By: csantivi <csantivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:23:11 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/04 17:39:52 by csantivi         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:10:59 by csantivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,12 @@ void	free_env(void *content)
 	free(env->key);
 	free(env->value);
 	free(env);
+}
+
+void	free_for_all(t_d *d)
+{
+	lst_clear(&d->tkn);
+	ft_lstclear(&d->env, free_env);
+	rl_clear_history();
+	free(d->buf);
 }

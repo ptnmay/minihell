@@ -6,7 +6,7 @@
 /*   By: csantivi <csantivi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 23:35:51 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/05 16:54:16 by csantivi         ###   ########.fr       */
+/*   Updated: 2023/06/07 23:35:00 by csantivi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*ft_getenv(t_list *my_env, char *str)
 	while (my_env)
 	{
 		env = my_env->content;
-		if (!ft_strncmp(env->key, str, ft_strlen(str)))
+		if (!ft_strcmp(env->key, str)
+			&& ft_strlen(env->key) == ft_strlen(str))
 			return (env->value);
 		my_env = my_env->next;
 	}
@@ -34,9 +35,18 @@ void	print_env(void *content)
 	printf("%s=%s\n", env->key, env->value);
 }
 
-void	init_env(t_d *d, char **envp)
+void	create_new_env(char *key, char *value, t_d *d)
 {
 	t_env	*env;
+
+	env = malloc(sizeof(t_env));
+	env->key = key;
+	env->value = value;
+	ft_lstadd_back(&d->env, ft_lstnew((void *) env));
+}
+
+void	init_env(t_d *d, char **envp)
+{
 	char	**key_n_value;
 	int		i;
 
@@ -47,10 +57,7 @@ void	init_env(t_d *d, char **envp)
 	while (envp[i])
 	{
 		key_n_value = ft_split(envp[i], '=');
-		env = malloc(sizeof(t_env));
-		env->key = key_n_value[0];
-		env->value = key_n_value[1];
-		ft_lstadd_back(&d->env, ft_lstnew((void *) env));
+		create_new_env(key_n_value[0], key_n_value[1], d);
 		free(key_n_value);
 		i++;
 	}

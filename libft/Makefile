@@ -6,12 +6,12 @@
 #    By: csantivi <csantivi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/16 18:49:59 by csantivi          #+#    #+#              #
-#    Updated: 2023/06/01 17:22:37 by csantivi         ###   ########.fr        #
+#    Updated: 2023/06/07 13:23:11 by csantivi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-FLAGS = -Wall -Werror -Wextra -g -fsanitize=address
+FLAGS = -Wall -Werror -Wextra
 CC = gcc
 AR = ar -crs
 RM = rm -rf
