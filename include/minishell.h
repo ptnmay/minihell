@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 16:15:02 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/08 22:44:14 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/09 03:51:05 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+# include <fcntl.h>
 
 # define KNRM  "\x1B[0m"
 # define KRED  "\x1B[31m"
@@ -70,9 +71,9 @@ typedef struct s_token
 {
 	char			**token;
 	char			*str;
-	t_exe			exe;
 	enum e_token	type;
 	struct s_token	*next;
+	struct s_exe	exe;
 }			t_token;
 
 typedef struct s_env
