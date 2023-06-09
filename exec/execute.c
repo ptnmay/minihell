@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 23:30:08 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/09 03:58:31 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/10 06:05:31 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	main_execute(t_d *d)
 	// }
 	
 	printf("It's %d command, Good luck\n", size);
-
+	cmd->exe.infd = 0;
+	cmd->exe.outfd = 1;
 	while (cmd)
 	{
 		if (i < size)
@@ -96,10 +97,11 @@ void	main_execute(t_d *d)
 				if (i == 0) //first child
 				{
 					//first child
-					if (check_type(cmd->token[i]) == REIN)
-					{
-						cmd->exe.infd = open(cmd->token[i], O_RDONLY);
-					}
+					printf("first child\n");
+					// if (check_type(cmd->token[i]) == REIN)
+					// {
+					// 	cmd->exe.infd = open(cmd->token[i], O_RDONLY);
+					// }
 					dup2(cmd->exe.infd, STDIN_FILENO);
 					dup2(cmd->exe.pfd[1], STDOUT_FILENO);
 					close(cmd->exe.infd);
@@ -107,7 +109,7 @@ void	main_execute(t_d *d)
 				}
 				else if (i > 0 && i < size) //middle process
 				{
-					
+					dup2(cmd->exe.pfd[1], STDOUT_FILENO);
 				}
 				
 			}
