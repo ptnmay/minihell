@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 16:15:02 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/09 03:51:05 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/11 05:27:44 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_exe
 {
 	pid_t	pid;
 	int		pfd[2];
+	int		tmp_fd;
 	int		infd;
 	int		outfd;
 }		t_exe;
@@ -90,6 +91,15 @@ typedef struct s_d
 	t_list	*env;
 	t_token	*tkn;
 }			t_d;
+
+//may did
+void	kids_process(t_token *cmd, t_d *d, int i, int size);
+void	dupdup(t_token *cmd, int i, int size);
+void	last_kid(t_token *cmd);
+// void	middle_kids(t_token *cmd);
+void	first_kid(t_token *cmd);
+void	parent_process(t_token *cmd);
+
 
 // LEXER
 

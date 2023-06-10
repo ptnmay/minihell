@@ -17,11 +17,13 @@ SRC = src/main.c \
 	exec/execute.c \
 	exec/builtin_1.c \
 	exec/builtin_2.c \
+	exec/kids_process.c \
+	exec/parent_process.c \
 	util/free.c \
 	util/lst_1.c \
 	util/lst_2.c \
 	util/util_1.c \
-	util/util_2.c
+	util/util_2.c \
 
 OBJ = $(SRC:.c=.o)
 

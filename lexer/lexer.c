@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 22:47:14 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/08 22:51:22 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/10 17:52:21 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,31 +86,31 @@ void	lexer(t_d *d)
 
 	parser(d);
 
-	t_token	*tmp;
-	printf("from split : ");	//  --|
-	lst_iter(d->tkn, print_tkn); //   |
-	printf("\n");				 // --|
-	printf("type       : ");		// ----
-	tmp = d->tkn;							//
-	while (tmp)								//
-	{										//
-		printf(" %d ->", tmp->type);		//
-		tmp = tmp->next;					//
-	}										//
-	printf("\n");					// ----
+	// t_token	*tmp;
+	// printf("from split : ");	//  --|
+	// lst_iter(d->tkn, print_tkn); //   |
+	// printf("\n");				 // --|
+	// printf("type       : ");		// ----
+	// tmp = d->tkn;							//
+	// while (tmp)								//
+	// {										//
+	// 	printf(" %d ->", tmp->type);		//
+	// 	tmp = tmp->next;					//
+	// }										//
+	// printf("\n");					// ----
 
 	join_cmd(d);
 
-	printf("from join  : ");	 //  --|
-	show_cmd(d->tkn); //   |
-	printf("type       : ");		// ----
-	tmp = d->tkn;							//
-	while (tmp)								//
-	{										//
-		printf(" %d ->", tmp->type);		//
-		tmp = tmp->next;					//
-	}										//
-	printf("\n\n");					// ----
+	// printf("from join  : ");	 //  --|
+	// show_cmd(d->tkn); //   |
+	// printf("type       : ");		// ----
+	// tmp = d->tkn;							//
+	// while (tmp)								//
+	// {										//
+	// 	printf(" %d ->", tmp->type);		//
+	// 	tmp = tmp->next;					//
+	// }										//
+	// printf("\n\n");					// ----
 }
 
 

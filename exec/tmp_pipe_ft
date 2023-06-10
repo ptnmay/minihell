@@ -1,0 +1,216 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tmp_pipe_ft                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/11 01:52:44 by psaeyang          #+#    #+#             */
+/*   Updated: 2023/06/11 02:56:06 by psaeyang         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+void	main_execute(t_d *d)
+{
+	t_token	*cmd;
+	int		size;
+	int		i;
+	int		fd[2];
+
+	i = 0;
+	cmd = d->tkn;
+	size = lst_size(cmd);
+	
+	printf("It's %d command, Good luck\n", size);
+	cmd->exe.infd = 0;
+	cmd->exe.outfd = 1;
+	
+	// int	tmprd = dup(0);
+	// int tmpwr = dup(1);
+
+	char **path;
+	// int	status;
+	
+	// while (cmd)
+	// {
+	// 	if (i < size)
+		// {
+			pipe(fd);
+			cmd->exe.pid = fork();
+			if (cmd->exe.pid == 0) //child process
+			{
+				printf(KBLU"----child process----%s\n", NONE);
+				path = ft_split(ft_getenv(d->env, "PATH"), ':');
+
+				dup2(fd[1], STDOUT_FILENO);
+				close(fd[0]);
+				close(fd[1]);
+				if (access(cmd->token[0], X_OK | F_OK) == 0)
+					execve(cmd->token[0], cmd->token, d->envp);
+				while (path && path[++i])
+				{
+					path[i] = ft_strjoin(path[i], "/");
+					path[i] = ft_strjoin(path[i], cmd->token[0]);
+					execve(path[i], cmd->token, d->envp);
+				}
+			}
+			i++;
+			//middle process
+			if (i != 0 && i < size)
+			{
+				cmd = cmd->next;
+				int fdd = dup(fd[0]);
+				pipe(fd);
+				cmd->exe.pid = fork();
+				if (cmd->exe.pid == 0) //child process
+				{
+					printf(KBLU"----middle process----%s\n", NONE);
+					path = ft_split(ft_getenv(d->env, "PATH"), ':');
+
+					dup2(fdd, STDIN_FILENO);
+					dup2(fd[1], STDOUT_FILENO);
+					close(fdd);
+					close(fd[1]);
+					if (access(cmd->token[0], X_OK | F_OK) == 0)
+						execve(cmd->token[0], cmd->token, d->envp);
+					while (path && path[++i])
+					{
+						path[i] = ft_strjoin(path[i], "/");
+						path[i] = ft_strjoin(path[i], cmd->token[0]);
+						execve(path[i], cmd->token, d->envp);
+					}
+				}
+			}
+			i++;
+			if (i == size)
+			{
+				cmd = cmd->next;
+				//last cmd
+				cmd->exe.pid = fork();
+				if (cmd->exe.pid == 0) //child process
+				{
+					printf(KBLU"----last process----%s\n", NONE);
+					path = ft_split(ft_getenv(d->env, "PATH"), ':');
+
+					dup2(fd[0], STDIN_FILENO);
+					close(fd[0]);
+					close(fd[1]);
+					if (access(cmd->token[0], X_OK | F_OK) == 0)
+						execve(cmd->token[0], cmd->token, d->envp);
+					while (path && path[++i])
+					{
+						path[i] = ft_strjoin(path[i], "/");
+						path[i] = ft_strjoin(path[i], cmd->token[0]);
+						execve(path[i], cmd->token, d->envp);
+					}
+				}
+			}
+			close(fd[0]);
+			close(fd[1]);
+			wait(NULL);
+			wait(NULL);
+			wait(NULL);
+			// waitpid(cmd->exe.pid, &status, WNOHANG);
+			// waitpid(cmd->next->exe.pid, &status, WNOHANG);
+			//parent process
+			// printf(KMAG"----parent process----\n"NONE);
+			// path = ft_split(ft_getenv(d->env, "PATH"), ':');
+			// dup2(cmd->exe.pfd[0], STDIN_FILENO);
+			// close(cmd->exe.pfd[0]);
+			// close(cmd->exe.pfd[1]);
+			// if (access(cmd->next->token[0], X_OK | F_OK) == 0)
+			// 	execve(cmd->next->token[0], cmd->token, d->envp);
+			// while (path && path[++i])
+			// {
+			// 	path[i] = ft_strjoin(path[i], "/");
+			// 	path[i] = ft_strjoin(path[i], cmd->next->token[0]);
+			// 	execve(path[i], cmd->next->token, d->envp);
+			// }
+			
+			// cmd = cmd->next;
+			
+			// else
+			// {
+			// 	printf("parent process\n");
+			// }
+		// }
+		
+
+
+		//9 did
+		// if (check_builtin(cmd->token[0]))
+		// {
+		// 	printf(KBLU"Builtin func.\n"NONE);
+		// 	do_builtin(cmd->token, d);
+		// }
+		// else if (cmd->type == CMD)
+		// {
+		// 	execute_from_path(cmd, d);
+		// }
+		// cmd = cmd->next;
+		// i++;
+	// }
+}
+
+
+
+
+
+//------------
+//9 did
+// #include "minishell.h"
+
+// void	execute_from_path(t_token *cmd, t_d *d)
+// {
+// 	int		pid;
+// 	char	**path;
+// 	int		i;
+// 	int		status;
+
+// 	if (!cmd)
+// 		return ;
+// 	path = ft_split(ft_getenv(d->env, "PATH"), ':');
+// 	pid = fork();
+// 	i = -1;
+// 	if (pid == 0)
+// 	{
+// 		if (is_inside('/', cmd->token[0]))
+// 			execve(cmd->token[0], cmd->token, d->envp);
+// 		while (path && path[++i])
+// 		{
+// 			path[i] = ft_strjoin(path[i], "/");
+// 			path[i] = ft_strjoin(path[i], cmd->token[0]);
+// 			if (!access(path[i], F_OK))
+// 				execve(path[i], cmd->token, d->envp);
+// 		}
+// 		printf("bash : %s: command not found\n", cmd->token[0]);
+// 		exit(127);
+// 	}
+// 	waitpid(pid, &status, 0);
+// 	d->exit_status = WEXITSTATUS(status);
+// 	free_2d(path);
+// }
+
+// void	main_execute(t_d *d)
+// {
+// 	t_token	*cmd;
+// 	int		size;
+
+// 	cmd = d->tkn;
+// 	size = lst_size(cmd);
+// 	while (cmd)
+// 	{
+// 		if (check_builtin(cmd->token[0]))
+// 		{
+// 			printf(KBLU"Builtin func.\n"NONE);
+// 			do_builtin(cmd->token, d);
+// 		}
+// 		else if (cmd->type == CMD)
+// 		{
+// 			execute_from_path(cmd, d);
+// 		}
+// 		cmd = cmd->next;
+// 	}
+// }
