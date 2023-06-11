@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csantivi <csantivi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 20:22:02 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/08 21:57:23 by csantivi         ###   ########.fr       */
+/*   Updated: 2023/06/11 18:27:47 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	main(int ac, char **av, char **envp)
 			main_execute(&d);
 			lst_clear(&d.tkn);
 			free(d.buf);
+			d.buf = 0;
 		}
 	}
 	printf("%s>> EOF ;-;\n%s", KRED, NONE);

@@ -6,7 +6,7 @@
 /*   By: psaeyang <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 16:15:02 by csantivi          #+#    #+#             */
-/*   Updated: 2023/06/11 05:27:44 by psaeyang         ###   ########.fr       */
+/*   Updated: 2023/06/12 00:34:12 by psaeyang         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ enum e_token
 	UNKNOW
 };
 
+typedef struct s_fd
+{
+	int		(*pipe)[2];
+	int		size;
+	int		i;
+}		t_fd;
+
 typedef struct s_exe
 {
 	pid_t	pid;
@@ -92,15 +99,6 @@ typedef struct s_d
 	t_token	*tkn;
 }			t_d;
 
-//may did
-void	kids_process(t_token *cmd, t_d *d, int i, int size);
-void	dupdup(t_token *cmd, int i, int size);
-void	last_kid(t_token *cmd);
-// void	middle_kids(t_token *cmd);
-void	first_kid(t_token *cmd);
-void	parent_process(t_token *cmd);
-
-
 // LEXER
 
 // lexer.c
@@ -133,8 +131,11 @@ void			join_cmd(t_d *d);
 
 // EXECUTE
 // execute.c
-void			execute_from_path(t_token *cmd, t_d *d);
+// void			execute_from_path(t_token *cmd, t_d *d);
+void			execute_from_path(char **token, t_d *d);
 void			main_execute(t_d *d);
+void			close_pipe(t_fd *fd);
+void			fork_exec(char **args, t_d *d, int type, t_fd *fd);
 // builtin_1.c
 void			ft_pwd(t_d *d);
 void			ft_echo(char **args, t_d *d);
@@ -171,10 +172,22 @@ enum e_token	check_type(char *c);
 void			show_2d(char **input);
 // util_2.c
 int				check_builtin(char *str);
-int				do_builtin(char **str, t_d *d);
+int				do_builtin(char **str, t_d *d, int do_fork);
 int				args_count(char **str);
 void			show_cmd(t_token *cmd);
 int				is_inside(char c, char *set);
+
+// util_3.c
+int				check_error_arrange(t_d *d);
+void			error_print_format_1(char *s1);
+void			error_print_format_2(char *s1, int option);
+void			error_print_format_3(char *s1, char *s2, int option);
+
+// util_4.c
+//may did
+void			dupdup(t_fd *fd);
+void			pipe_all(t_fd *fd);
+void			fork_fork(t_d *d, t_token *cmd, t_fd *fd, int do_fork);
 
 // SRC/ENV
 // env.c

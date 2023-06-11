@@ -1,6 +1,6 @@
 NAME = minishell
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra #-g -fsanitize=address  
 RM = rm -rf
 LDFLAGS = -L/usr/local/opt/readline/lib
 CFLAGS += -I/usr/local/opt/readline/include
@@ -17,13 +17,13 @@ SRC = src/main.c \
 	exec/execute.c \
 	exec/builtin_1.c \
 	exec/builtin_2.c \
-	exec/kids_process.c \
-	exec/parent_process.c \
 	util/free.c \
 	util/lst_1.c \
 	util/lst_2.c \
 	util/util_1.c \
 	util/util_2.c \
+	util/util_3.c \
+	util/util_4.c 
 
 OBJ = $(SRC:.c=.o)
 
